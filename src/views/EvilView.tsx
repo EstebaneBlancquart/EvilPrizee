@@ -4,6 +4,7 @@ import { OrbitControls } from "@react-three/drei";
 import { Vector3 } from "three";
 import MajorasMask from "../components/MajorasMask";
 import ChallengeText from "../components/ChallengeText";
+import { getBaseUrl } from "../helpers/import.helper";
 
 export default function EvilView() {
   const texts = ["Bonjour LePab,", "Bienvenue dans la simulation."];
@@ -11,7 +12,7 @@ export default function EvilView() {
     <div className=" h-full flex flex-col">
       <img
         className="-z-10 absolute h-full w-full object-cover"
-        src="/background.jpg"
+        src={getBaseUrl() + "/background.jpg"}
         alt="background"
       />
 
