@@ -37,7 +37,7 @@ export default function ChallengeText({ texts }: { texts: string[] }) {
   }, [length]);
 
   return (
-    <div className="p-4  ">
+    <div className="p-4 absolute bottom-0 left-0 w-full">
       <div className="border-8 border-white bg-black max-w-5xl mx-auto  text-white h-44 ">
         <div className="h-full flex flex-col justify-center items-center text-xl">
           {sentences.map((sentence, index) => (
