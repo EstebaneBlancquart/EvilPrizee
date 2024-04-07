@@ -1,13 +1,25 @@
+import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 // @ts-ignore
 import { Vector3 } from "three";
+import { getBaseUrl } from "../helpers/import.helper";
 import MajorasMask from "../components/MajorasMask";
 import ChallengeText from "../components/ChallengeText";
-import { getBaseUrl } from "../helpers/import.helper";
+import LayerInfos from "../components/LayerInfos";
+import DevComponent from "../components/Test/DevComponent";
 
 export default function EvilView() {
-  const texts = ["Bonjour LePab,", "Bienvenue dans la simulation."];
+  const [texts, setTexts] = useState<string[]>([]);
+
+  const devHandleAddTextChange = (checked: boolean) => {
+    if (checked) {
+      setTexts(["Bonjour LePab,", "Bienvenue dans la simulation."]);
+    } else {
+      setTexts([]);
+    }
+  };
+
   return (
     <div className=" h-full flex flex-col">
       <img
@@ -22,10 +34,14 @@ export default function EvilView() {
           castShadow
           intensity={Math.PI * 2}
         />
-        <MajorasMask position={new Vector3(0, 0, 2)} />
+        <MajorasMask position={new Vector3(0, 0.5, 1)} />
         <OrbitControls makeDefault />
       </Canvas>
-      <ChallengeText texts={texts} />
+
+      {texts.length > 0 && <ChallengeText texts={texts} />}
+      {texts.length === 0 && <LayerInfos money={0} />}
+
+      <DevComponent handleAddTextChanged={devHandleAddTextChange} />
     </div>
   );
 }
