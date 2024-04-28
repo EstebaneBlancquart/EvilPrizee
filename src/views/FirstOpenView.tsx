@@ -115,7 +115,7 @@ export default function FirstOpenView() {
         <GenericView
           onOk={() => setCurrentView("wrong-button")}
           onCancel={() => {
-            setFirstOpening();
+            setFirstOpening(false);
             window.location.reload();
           }}
           texts={[

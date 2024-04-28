@@ -11,18 +11,18 @@ const getLocalStorage = () => {
 const setLocalStorage = (data: ILocalStorage) =>
   localStorage.setItem("evil-prizee", JSON.stringify(data));
 
-export const setFirstOpening = () => {
+export const setFirstOpening = (value: boolean) => {
   const localStorage = getLocalStorage();
-  setLocalStorage(Object.assign(localStorage, { isFirstOpening: false }));
+  setLocalStorage(Object.assign(localStorage, { isFirstOpening: value }));
 };
 
 export const isFirstOpening = () => {
   return getLocalStorage().isFirstOpening !== false;
 };
 
-export const setFirstMaskOpening = () => {
+export const setFirstMaskOpening = (value: boolean) => {
   const localStorage = getLocalStorage();
-  setLocalStorage(Object.assign(localStorage, { isFirstMaskOpening: false }));
+  setLocalStorage(Object.assign(localStorage, { isFirstMaskOpening: value }));
 };
 
 export const isFirstMaskOpening = () =>

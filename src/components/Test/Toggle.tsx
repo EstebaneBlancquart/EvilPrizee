@@ -2,11 +2,13 @@ import { useState } from "react";
 export default function Toggle({
   text,
   onChange,
+  initialChecked = false,
 }: {
   text: string;
   onChange: (checked: boolean) => void;
+  initialChecked?: boolean;
 }) {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(initialChecked);
 
   const handleChange = () => {
     setChecked(!checked);

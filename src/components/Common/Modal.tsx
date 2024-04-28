@@ -1,10 +1,16 @@
+import { useState } from "react";
+
 export default function Modal({
-  children,
+  isOpen,
   onClose,
+  children,
 }: {
-  children: React.ReactNode;
+  isOpen: boolean;
   onClose: () => void;
+  children: React.ReactNode;
 }) {
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-black bg-opacity-80  text-white p-8 rounded relative">

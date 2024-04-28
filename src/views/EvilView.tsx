@@ -16,28 +16,27 @@ import Modal from "../components/Common/Modal";
 import Icon from "../components/Icons/Icon";
 import ArrowButton from "../components/Common/ArrowButton";
 import { AnimatedMajorasMask } from "../components/AnimatedMajorasMask";
+import steps from "../steps.json";
+import ChallengeInputModal from "../components/ChallengeInputModal";
+
+enum Status {
+  APPEARING = "appearing",
+  PRESENT = "present",
+  DISAPPEARING = "disappearing",
+  NOT_PRESENT = "not_present",
+}
 
 export default function EvilView() {
   const firstOpen = isFirstMaskOpening();
-  if (firstOpen) setFirstMaskOpening();
+  if (firstOpen) setFirstMaskOpening(false);
 
-  const [texts, setTexts] = useState<string[]>([]);
-  const [recapText, setRecapText] = useState<string[]>([
-    "Première épreuve :",
-    "Mange ta soupe",
-  ]);
+  const [status, setStatus] = useState(Status.APPEARING);
+  const [step, setStep] = useState(0);
+
   const [isChalllengeInputOpen, setIsChallengeInputOpen] = useState(false);
   const [code, setCode] = useState("");
 
-  const devHandleAddTextChange = (checked: boolean) => {
-    if (checked) {
-      setTexts(["Bonjour LePab,", "Bienvenue dans la simulation."]);
-      setRecapText([]);
-    } else {
-      setTexts([]);
-      setRecapText(["Première épreuve :", "Mange ta soupe"]);
-    }
-  };
+  const [currentParagraph, setCurrentParagraph] = useState(0);
 
   const handleOpenChallengeInput = () => {
     console.log("Finish Challenge");
@@ -47,6 +46,38 @@ export default function EvilView() {
   useEffect(() => {
     setCode("");
   }, [isChalllengeInputOpen]);
+
+  useEffect(() => {
+    setCurrentParagraph(0);
+    setStatus(Status.APPEARING);
+  }, [step]);
+
+  useEffect(() => {
+    if (status === Status.DISAPPEARING) {
+      const timeout = setTimeout(() => {
+        setStatus(Status.NOT_PRESENT);
+      }, 1000);
+      return () => clearTimeout(timeout);
+    }
+
+    if (status === Status.APPEARING) {
+      const timeout = setTimeout(() => {
+        setStatus(Status.PRESENT);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [status]);
+
+  const handleNextStep = () => {
+    setIsChallengeInputOpen(false);
+
+    if (step === steps.length - 1) {
+      console.log("End of the game");
+      return;
+    }
+
+    setStep(step + 1);
+  };
 
   return (
     <div className=" h-full flex flex-col">
@@ -63,7 +94,7 @@ export default function EvilView() {
           intensity={Math.PI * 2}
         />
 
-        {firstOpen && (
+        {status === Status.APPEARING && (
           <AnimatedMajorasMask
             startPosition={new Vector3(95.6, 0.5, -191)}
             startRotation={[0, 3 * Math.PI, 0]}
@@ -74,62 +105,58 @@ export default function EvilView() {
           />
         )}
 
-        {!firstOpen && <MajorasMask position={new Vector3(0, 0.5, 0)} />}
+        {status === Status.PRESENT && (
+          <MajorasMask position={new Vector3(0, 0.5, 0)} />
+        )}
+
+        {status === Status.DISAPPEARING && (
+          <AnimatedMajorasMask
+            startPosition={new Vector3(0, 0.5, 0)}
+            startRotation={[0, 0, 0]}
+            endPosition={new Vector3(95.6, 0.5, -191)}
+            endRotation={[0, 3 * Math.PI, 0]}
+            delayBeforeAnimation={0}
+            duration={1000}
+          />
+        )}
+
+        {status === Status.NOT_PRESENT && (
+          <MajorasMask
+            position={new Vector3(95.6, 0.5, -191)}
+            rotation={[0, 3 * Math.PI, 0]}
+          />
+        )}
 
         <OrbitControls makeDefault />
       </Canvas>
 
-      {texts.length > 0 && <ChallengeText texts={texts} />}
-      {texts.length === 0 && (
+      {status === Status.PRESENT && (
+        <ChallengeText
+          texts={steps[step].paragraphs[currentParagraph]}
+          onNext={() => {
+            if (currentParagraph < steps[step].paragraphs.length - 1) {
+              setCurrentParagraph(currentParagraph + 1);
+            } else {
+              setStatus(Status.DISAPPEARING);
+            }
+          }}
+        />
+      )}
+      {status === Status.NOT_PRESENT && (
         <LayerInfos
           money={0}
-          texts={recapText}
+          texts={steps[step].recap}
           handleOpenChallengeInput={handleOpenChallengeInput}
         />
       )}
 
-      <DevComponent handleAddTextChanged={devHandleAddTextChange} />
+      <DevComponent />
 
       {isChalllengeInputOpen && (
-        <Modal onClose={() => setIsChallengeInputOpen(false)}>
-          <div className="w-96">
-            <h1 className="text-center">Veuillez entrer le code :</h1>
-            <div className="px-8 my-12 grid grid-rows-2 grid-flow-col">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-                .sort((a, b) => 0.5 - Math.random())
-                .map((number, index) => (
-                  <button
-                    key={index}
-                    className="bg-black text-2xl border text-white aspect-square"
-                    onClick={() => setCode(code + number.toString())}
-                  >
-                    {number}
-                  </button>
-                ))}
-            </div>
-            <div className="flex justify-around">
-              <p>Code : </p>
-              <p className="grow text-center">{code}</p>
-              <button
-                onClick={() => {
-                  setCode((code) => {
-                    return code.slice(0, -1);
-                  });
-                }}
-              >
-                <Icon name="erase" width={24} height={24} />
-              </button>
-            </div>
-            <div className="flex justify-center mt-8 pl-8">
-              <ArrowButton
-                text="Valider"
-                onClick={() => {
-                  setIsChallengeInputOpen(false);
-                }}
-              />
-            </div>
-          </div>
-        </Modal>
+        <ChallengeInputModal
+          code={steps[step].code}
+          onSuccess={handleNextStep}
+        />
       )}
     </div>
   );

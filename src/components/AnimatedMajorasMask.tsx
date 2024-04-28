@@ -27,7 +27,6 @@ export function AnimatedMajorasMask({
 
   const stopAnimation = () => {
     if (intervalMaskAnimation) clearInterval(intervalMaskAnimation);
-    console.log("stopAnimation");
 
     setTimeout(() => {
       setMaskPosition(endPosition);
@@ -48,7 +47,6 @@ export function AnimatedMajorasMask({
       if (currentDuration >= duration) stopAnimation();
 
       setMaskPosition((maskPosition) => {
-        console.log(maskPosition, endPosition, startPosition);
         maskPosition.set(
           maskPosition.x +
             (endPosition.x - startPosition.x) / (duration / frequency),
@@ -73,11 +71,6 @@ export function AnimatedMajorasMask({
 
     return () => stopAnimation();
   }, []);
-
-  useEffect(() => {
-    console.log("maskPosition", maskPosition);
-    console.log("maskRotation", maskRotation);
-  }, [maskRotation]);
 
   return (
     <MajorasMask

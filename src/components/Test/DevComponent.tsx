@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { resetLocalStorage } from "../../helpers/localstorage.helper";
+import {
+  isFirstMaskOpening,
+  isFirstOpening,
+  resetLocalStorage,
+  setFirstMaskOpening,
+  setFirstOpening,
+} from "../../helpers/localstorage.helper";
 import Toggle from "./Toggle";
 
-export default function DevComponent({
-  handleAddTextChanged,
-}: {
-  handleAddTextChanged: (checked: boolean) => void;
-}) {
+export default function DevComponent({}: {}) {
   const [isOpened, setIsOpened] = useState(false);
 
   return (
@@ -26,7 +28,6 @@ export default function DevComponent({
               close
             </button>
           </div>
-          <Toggle onChange={handleAddTextChanged} text={"Add text?"} />
           <button
             className="bg-white text-black pr-3 pl-4 pb-1 rounded-2xl my-4 transition-all duration-75 hover:bg-blue-200"
             onClick={() => {
@@ -36,6 +37,22 @@ export default function DevComponent({
           >
             Reset LocalStorage
           </button>
+          <Toggle
+            onChange={(checked: boolean) => {
+              setFirstOpening(checked);
+              window.location.reload();
+            }}
+            text="First Opening"
+            initialChecked={isFirstOpening()}
+          />
+          <Toggle
+            onChange={(checked: boolean) => {
+              setFirstMaskOpening(checked);
+              window.location.reload();
+            }}
+            text="First Mask Opening"
+            initialChecked={isFirstMaskOpening()}
+          />
         </div>
       </div>
       <button

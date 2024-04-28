@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ArrowButton from "./Common/ArrowButton";
 
 const getSentences = (texts: string[], length: number) => {
   let currentLength = 0;
@@ -15,7 +16,13 @@ const getSentences = (texts: string[], length: number) => {
   return newTexts;
 };
 
-export default function ChallengeText({ texts }: { texts: string[] }) {
+export default function ChallengeText({
+  texts,
+  onNext,
+}: {
+  texts: string[];
+  onNext?: () => void;
+}) {
   const [length, setLength] = useState(0);
   const [sentences, setSentences] = useState(getSentences(texts, length));
 
@@ -39,10 +46,23 @@ export default function ChallengeText({ texts }: { texts: string[] }) {
   return (
     <div className="p-4 absolute bottom-0 left-0 w-full">
       <div className="border-8 border-white bg-black max-w-5xl mx-auto  text-white h-44 ">
-        <div className="h-full flex flex-col justify-center items-center text-xl">
+        <div className="h-full flex flex-col justify-center items-center text-xl relative">
           {sentences.map((sentence, index) => (
             <p key={index}>{sentence}</p>
           ))}
+          {onNext && (
+            <ArrowButton
+              className="absolute bottom-3 right-5 animate-pulse"
+              onClick={() => {
+                if (length < totalLength) {
+                  setLength(totalLength);
+                  return;
+                }
+                setLength(0);
+                onNext();
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

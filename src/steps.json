@@ -1,0 +1,21 @@
+[
+  {
+    "paragraphs": [
+      ["Bonjour LePab,", "Bienvenue dans la simulation."],
+      [
+        "Je suis le grand Majora.",
+        "Je vais te donner des épreuves.",
+        "Si tu les réussis, tu auras des récompenses.",
+        "Si tu échoues, il y aura des conséquences."
+      ],
+      ["Bonne chance."]
+    ],
+    "recap": ["Première épreuve :", "Mange ta soupe"],
+    "code": "123"
+  },
+  {
+    "paragraphs": [["Bravo, tu as réussis la première épreuve."]],
+    "recap": ["Deuxième épreuve :", "Mange ta soupe"],
+    "code": "456"
+  }
+]
