@@ -4,6 +4,10 @@ import { OrbitControls } from "@react-three/drei";
 // @ts-ignore
 import { Vector3 } from "three";
 import { getBaseUrl } from "../helpers/import.helper";
+import {
+  isFirstMaskOpening,
+  setFirstMaskOpening,
+} from "../helpers/localstorage.helper";
 import MajorasMask from "../components/MajorasMask";
 import ChallengeText from "../components/ChallengeText";
 import LayerInfos from "../components/LayerInfos";
@@ -11,8 +15,12 @@ import DevComponent from "../components/Test/DevComponent";
 import Modal from "../components/Common/Modal";
 import Icon from "../components/Icons/Icon";
 import ArrowButton from "../components/Common/ArrowButton";
+import { AnimatedMajorasMask } from "../components/AnimatedMajorasMask";
 
 export default function EvilView() {
+  const firstOpen = isFirstMaskOpening();
+  if (firstOpen) setFirstMaskOpening();
+
   const [texts, setTexts] = useState<string[]>([]);
   const [recapText, setRecapText] = useState<string[]>([
     "Première épreuve :",
@@ -54,7 +62,20 @@ export default function EvilView() {
           castShadow
           intensity={Math.PI * 2}
         />
-        <MajorasMask position={new Vector3(0, 0.5, 1)} />
+
+        {firstOpen && (
+          <AnimatedMajorasMask
+            startPosition={new Vector3(95.6, 0.5, -191)}
+            startRotation={[0, 3 * Math.PI, 0]}
+            endPosition={new Vector3(0, 0.5, 0)}
+            endRotation={[0, 0, 0]}
+            delayBeforeAnimation={100}
+            duration={1000}
+          />
+        )}
+
+        {!firstOpen && <MajorasMask position={new Vector3(0, 0.5, 0)} />}
+
         <OrbitControls makeDefault />
       </Canvas>
 

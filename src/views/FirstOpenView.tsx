@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { setFirstOpening } from "../helpers/localstorage.helper";
 
 const GenericView = ({
   texts,
@@ -114,7 +115,7 @@ export default function FirstOpenView() {
         <GenericView
           onOk={() => setCurrentView("wrong-button")}
           onCancel={() => {
-            localStorage.setItem("evil-prizee", "true");
+            setFirstOpening();
             window.location.reload();
           }}
           texts={[

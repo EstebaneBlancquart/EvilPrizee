@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { resetLocalStorage } from "../../helpers/localstorage.helper";
 import Toggle from "./Toggle";
 
 export default function DevComponent({
@@ -29,7 +30,7 @@ export default function DevComponent({
           <button
             className="bg-white text-black pr-3 pl-4 pb-1 rounded-2xl my-4 transition-all duration-75 hover:bg-blue-200"
             onClick={() => {
-              localStorage.removeItem("evil-prizee");
+              resetLocalStorage();
               window.location.reload();
             }}
           >
