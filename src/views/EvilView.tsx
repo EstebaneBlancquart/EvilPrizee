@@ -18,7 +18,7 @@ export default function EvilView() {
     "Première épreuve :",
     "Mange ta soupe",
   ]);
-  const [isChalllengeInputOpen, setIsChallengeInputOpen] = useState(true);
+  const [isChalllengeInputOpen, setIsChallengeInputOpen] = useState(false);
   const [code, setCode] = useState("");
 
   const devHandleAddTextChange = (checked: boolean) => {

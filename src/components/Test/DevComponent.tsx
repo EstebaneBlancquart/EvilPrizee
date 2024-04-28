@@ -26,6 +26,15 @@ export default function DevComponent({
             </button>
           </div>
           <Toggle onChange={handleAddTextChanged} text={"Add text?"} />
+          <button
+            className="bg-white text-black pr-3 pl-4 pb-1 rounded-2xl my-4 transition-all duration-75 hover:bg-blue-200"
+            onClick={() => {
+              localStorage.removeItem("evil-prizee");
+              window.location.reload();
+            }}
+          >
+            Reset LocalStorage
+          </button>
         </div>
       </div>
       <button
