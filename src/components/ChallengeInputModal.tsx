@@ -6,30 +6,24 @@ import Icon from "./Icons/Icon";
 export default function ChallengeInputModal({
   code,
   onSuccess,
+  isOpen,
+  onClose,
 }: {
   code: string;
   onSuccess: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }) {
-  const [isOpen, setIsOpen] = useState(true);
   const [tryCode, setTryCode] = useState("");
 
   const handleValidateCode = () => {
-    console.log(
-      "Trying to validate code : ",
-      tryCode,
-      "and real code is ",
-      code
-    );
     if (tryCode === code) {
-      console.log("Code is correct");
       onSuccess();
-    } else {
-      console.log("Code is incorrect");
     }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className="w-full">
         <h1 className="text-center">Veuillez entrer le code :</h1>
         <div className="px-8 my-12 grid grid-rows-2 grid-flow-col">

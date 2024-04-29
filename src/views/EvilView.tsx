@@ -77,13 +77,11 @@ export default function EvilView() {
     }
 
     if (status === Status.SPEAKING) {
-      console.log(steps[step].paragraphs[currentParagraph]);
       const textSize = steps[step].paragraphs[currentParagraph].reduce(
         (acc, text) => acc + text.length,
         0
       );
 
-      console.log(textSize, steps[step].paragraphs[currentParagraph]);
       const timeout = setTimeout(() => {
         setStatus(Status.PRESENT);
       }, textSize * 100 + 1000);
@@ -137,7 +135,6 @@ export default function EvilView() {
         src={getBaseUrl() + "/background.jpg"}
         alt="background"
       />
-
       {!finished && (
         <Canvas>
           <directionalLight
@@ -166,6 +163,7 @@ export default function EvilView() {
               startPosition={new Vector3(0, 0.5, 0)}
               startRotation={[0, 0, 0]}
               duration={1000}
+              // @ts-ignore
               animation={animationSpeaking}
               loop
             />
@@ -191,7 +189,6 @@ export default function EvilView() {
           <OrbitControls makeDefault />
         </Canvas>
       )}
-
       {!finished &&
         (status === Status.SPEAKING || status === Status.PRESENT) && (
           <ChallengeText
@@ -213,22 +210,20 @@ export default function EvilView() {
           handleOpenChallengeInput={handleOpenChallengeInput}
         />
       )}
-
       <DevComponent />
-
       {!finished && isChalllengeInputOpen && (
         <ChallengeInputModal
+          isOpen={isChalllengeInputOpen}
+          onClose={() => setIsChallengeInputOpen(false)}
           code={steps[step].code}
           onSuccess={handleNextStep}
         />
       )}
-
       {!finished && isExploding && (
         <div className="absolute top-1/2 left-1/2 w-96 h-96">
           <ConfettiExplosion />
         </div>
       )}
-
       {finished && (
         <>
           <Confetti width={width} height={height} />

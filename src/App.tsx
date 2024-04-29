@@ -1,15 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import { isFirstOpening } from "./helpers/localstorage.helper";
-import FirstOpenView from "./views/FirstOpenView";
-import EvilView from "./views/EvilView";
+import Wrapper from "./views/Wrapper";
 
 function App() {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={isFirstOpening() ? <FirstOpenView /> : <EvilView />}
-      />
+      <Route path="/" element={<Wrapper />} />
     </Routes>
   );
 }

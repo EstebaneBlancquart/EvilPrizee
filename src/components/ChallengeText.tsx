@@ -45,7 +45,7 @@ export default function ChallengeText({
 
   return (
     <div className="p-4 absolute bottom-0 left-0 w-full">
-      <div className="border-8 border-white bg-black max-w-5xl mx-auto  text-white h-44 ">
+      <div className="border-4 md:border-8 border-white bg-black max-w-5xl mx-auto  text-white h-44 ">
         <div className="h-full flex flex-col justify-center items-center text-md  text-center relative md:text-xl">
           {sentences.map((sentence, index) => (
             <p key={index}>{sentence}</p>
