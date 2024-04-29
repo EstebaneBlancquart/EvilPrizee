@@ -9,6 +9,7 @@ export function AnimatedMajorasMask({
   endRotation,
   delayBeforeAnimation = 0,
   duration = 1000,
+  loop = false,
 }: {
   startPosition: Vector3;
   startRotation: number[];
@@ -16,6 +17,7 @@ export function AnimatedMajorasMask({
   endRotation: number[];
   delayBeforeAnimation?: number;
   duration?: number;
+  loop?: boolean;
 }) {
   const [maskPosition, setMaskPosition] = useState(startPosition.clone());
   const [maskRotation, setMaskRotation] = useState(startRotation);
@@ -36,6 +38,7 @@ export function AnimatedMajorasMask({
 
   useEffect(() => {
     let delay = delayBeforeAnimation;
+    let coeff = 1;
     intervalMaskAnimation = setInterval(() => {
       if (delay > 0) {
         delay -= 1;
@@ -44,27 +47,38 @@ export function AnimatedMajorasMask({
 
       currentDuration += frequency;
 
-      if (currentDuration >= duration) stopAnimation();
+      if (currentDuration >= duration) {
+        if (!loop) stopAnimation();
+        else {
+          currentDuration = 0;
+          coeff *= -1;
+        }
+      }
 
       setMaskPosition((maskPosition) => {
         maskPosition.set(
           maskPosition.x +
-            (endPosition.x - startPosition.x) / (duration / frequency),
+            (coeff * (endPosition.x - startPosition.x)) /
+              (duration / frequency),
           maskPosition.y +
-            (endPosition.y - startPosition.y) / (duration / frequency),
+            (coeff * (endPosition.y - startPosition.y)) /
+              (duration / frequency),
           maskPosition.z +
-            (endPosition.z - startPosition.z) / (duration / frequency)
+            (coeff * (endPosition.z - startPosition.z)) / (duration / frequency)
         );
         return maskPosition.clone();
       });
 
       setMaskRotation((maskRotation) => {
         maskRotation[0] +=
-          (endRotation[0] - startRotation[0]) / (duration / frequency);
+          (coeff * (endRotation[0] - startRotation[0])) /
+          (duration / frequency);
         maskRotation[1] +=
-          (endRotation[1] - startRotation[1]) / (duration / frequency);
+          (coeff * (endRotation[1] - startRotation[1])) /
+          (duration / frequency);
         maskRotation[2] +=
-          (endRotation[2] - startRotation[2]) / (duration / frequency);
+          (coeff * (endRotation[2] - startRotation[2])) /
+          (duration / frequency);
         return [maskRotation[0], maskRotation[1], maskRotation[2]];
       });
     }, frequency);

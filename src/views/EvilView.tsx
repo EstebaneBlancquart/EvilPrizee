@@ -18,9 +18,11 @@ import ArrowButton from "../components/Common/ArrowButton";
 import { AnimatedMajorasMask } from "../components/AnimatedMajorasMask";
 import steps from "../steps.json";
 import ChallengeInputModal from "../components/ChallengeInputModal";
+import { ComplexAnimatedMajorasMask } from "../components/ComplexAnimatedMajorasMask";
 
 enum Status {
   APPEARING = "appearing",
+  SPEAKING = "speaking",
   PRESENT = "present",
   DISAPPEARING = "disappearing",
   NOT_PRESENT = "not_present",
@@ -34,7 +36,6 @@ export default function EvilView() {
   const [step, setStep] = useState(0);
 
   const [isChalllengeInputOpen, setIsChallengeInputOpen] = useState(false);
-  const [code, setCode] = useState("");
 
   const [currentParagraph, setCurrentParagraph] = useState(0);
 
@@ -42,10 +43,6 @@ export default function EvilView() {
     console.log("Finish Challenge");
     setIsChallengeInputOpen(true);
   };
-
-  useEffect(() => {
-    setCode("");
-  }, [isChalllengeInputOpen]);
 
   useEffect(() => {
     setCurrentParagraph(0);
@@ -62,8 +59,15 @@ export default function EvilView() {
 
     if (status === Status.APPEARING) {
       const timeout = setTimeout(() => {
-        setStatus(Status.PRESENT);
+        setStatus(Status.SPEAKING);
       }, 2000);
+      return () => clearTimeout(timeout);
+    }
+
+    if (status === Status.SPEAKING) {
+      const timeout = setTimeout(() => {
+        setStatus(Status.PRESENT);
+      }, 5000);
       return () => clearTimeout(timeout);
     }
   }, [status]);
@@ -77,6 +81,29 @@ export default function EvilView() {
     }
 
     setStep(step + 1);
+  };
+
+  const animationSpeaking = {
+    "0%": {
+      rotation: [0, 0, 0],
+      position: new Vector3(0, 0.5, 0),
+    },
+    "20%": {
+      rotation: [-Math.PI / 100, -Math.PI / 100, 0],
+      position: new Vector3(0, 0.5, 0),
+    },
+    "60%": {
+      rotation: [Math.PI / 100, Math.PI / 100, 0],
+      position: new Vector3(0, 0.5, 0),
+    },
+    "75%": {
+      rotation: [-Math.PI / 100, Math.PI / 100, 0],
+      position: new Vector3(0, 0.5, 0),
+    },
+    "100%": {
+      rotation: [0, 0, 0],
+      position: new Vector3(0, 0.5, 0),
+    },
   };
 
   return (
@@ -109,13 +136,22 @@ export default function EvilView() {
           <MajorasMask position={new Vector3(0, 0.5, 0)} />
         )}
 
+        {status === Status.SPEAKING && (
+          <ComplexAnimatedMajorasMask
+            startPosition={new Vector3(0, 0.5, 0)}
+            startRotation={[0, 0, 0]}
+            duration={1000}
+            animation={animationSpeaking}
+            loop
+          />
+        )}
+
         {status === Status.DISAPPEARING && (
           <AnimatedMajorasMask
             startPosition={new Vector3(0, 0.5, 0)}
             startRotation={[0, 0, 0]}
             endPosition={new Vector3(95.6, 0.5, -191)}
             endRotation={[0, 3 * Math.PI, 0]}
-            delayBeforeAnimation={0}
             duration={1000}
           />
         )}
@@ -130,11 +166,12 @@ export default function EvilView() {
         <OrbitControls makeDefault />
       </Canvas>
 
-      {status === Status.PRESENT && (
+      {(status === Status.SPEAKING || status === Status.PRESENT) && (
         <ChallengeText
           texts={steps[step].paragraphs[currentParagraph]}
           onNext={() => {
             if (currentParagraph < steps[step].paragraphs.length - 1) {
+              setStatus(Status.SPEAKING);
               setCurrentParagraph(currentParagraph + 1);
             } else {
               setStatus(Status.DISAPPEARING);
