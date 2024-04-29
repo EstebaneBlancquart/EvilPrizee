@@ -8,14 +8,105 @@
         "Si tu les réussis, tu auras des récompenses.",
         "Si tu échoues, il y aura des conséquences."
       ],
-      ["Bonne chance."]
+      [
+        "Tu as décidé d'entrer sur le site et j'en suis ravie.",
+        "Tu ne pourras plus en sortir dorénavant."
+      ],
+      [
+        "Pour t'échapper, tu devras accomplir les différentes épreuves que je te donnerai.",
+        "Et rentrer les codes que tu trouveras."
+      ],
+      [
+        "Chaque épreuve te donnera un code.",
+        "Et ce code te permettra de commencer la prochaine épreuve.",
+        "Si tu réussis, je ferais de toi un homme riche.",
+        "Si tu échoues, je n'aurais aucune pitié."
+      ],
+      ["Bonne chance."],
+      ["..."],
+      [
+        "Pour ta première épreuve,",
+        "Tu devras monter plus haut qu'aucun homme pour affronter le vide et la peur",
+        "en terminant une via-ferrata.",
+        "Les informations seront transmises à tes amis."
+      ]
     ],
-    "recap": ["Première épreuve :", "Mange ta soupe"],
-    "code": "123"
+    "recap": ["Première épreuve :", "Via-Ferrata"],
+    "code": "000"
   },
   {
-    "paragraphs": [["Bravo, tu as réussis la première épreuve."]],
-    "recap": ["Deuxième épreuve :", "Mange ta soupe"],
-    "code": "456"
+    "paragraphs": [
+      [
+        "Je suis ravie de te revoir.",
+        "Même si, j'avoue,",
+        "J'aurais trouvé marrant que la via-ferrata ai eu raison de toi."
+      ],
+      ["Pour la deuxième épreuve,", "Tu devrais faire le défi du barman."],
+      [
+        "Différentes boissons se présenterons à toi,",
+        "tu devras affronter chacun de tes amis",
+        "en combat singulier pour tenter de constituer le meilleur breuvage."
+      ],
+      [
+        "Vous lancerez tour à tour un dé qui définira le type de boisson à verser.",
+        "Je transmet par télépathie les règles à tes amis."
+      ],
+      [
+        "Ceux qui ne jouent pas seront juges.",
+        "Le participant qui perd l'épreuve devra boire son breuvage."
+      ],
+      ["Bonne chance."]
+    ],
+    "recap": ["Deuxième épreuve :", "Le défi du barman"],
+    "code": "000"
+  },
+  {
+    "paragraphs": [
+      [
+        "L'alcool n'a pas encore eu raison de toi ?",
+        "Parfait, on a pouvoir s'amuser encore un peu."
+      ],
+      [
+        "Pour la troisième épreuve,",
+        "Tu devrais boire des shooters de tequila",
+        "avec chacune des personnes ici présentes."
+      ],
+      ["Simple, mais efficace."],
+      ["Bonne chance."]
+    ],
+    "recap": ["Troisième épreuve :", "Shooter entre amis"],
+    "code": "000"
+  },
+  {
+    "paragraphs": [
+      ["Bravo."],
+      [
+        "Te rappelles-tu ces soirée au lycée où l'objectif était",
+        "de boire un maximum d'alcool en un minimum de temps ?"
+      ],
+      [
+        "Il est temps de retrouver son âme d'adolescent tu ne crois pas ?",
+        "Pour la quatrième épreuve,",
+        "Tu devras faire la plus belle des rivières."
+      ],
+      ["Bonne chance."]
+    ],
+    "recap": ["Quatrième épreuve :", "Une belle rivière"],
+    "code": "000"
+  },
+  {
+    "paragraphs": [
+      ["Bravo."],
+      ["Cette dernière épreuve est un peu particulière.."],
+      ["Je sens qu'on va bien s'amuser tu ne crois pas ?"],
+      [
+        "Je vais transmettre les informations à tes amis pour qu'ils t'expliquent",
+        "le moyen de sortir de cette simulation."
+      ],
+      ["Ce fût un plaisir de jouer avec votre âme cher Lepab"],
+      ["Bonne chance pour cette dernière épreuve."]
+    ],
+    "recap": ["Dernière épreuve :", "Secret"],
+    "code": "000"
   }
 ]

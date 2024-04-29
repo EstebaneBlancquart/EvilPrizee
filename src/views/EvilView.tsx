@@ -3,18 +3,19 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 // @ts-ignore
 import { Vector3 } from "three";
+import ConfettiExplosion from "react-confetti-explosion";
+import Confetti from "react-confetti";
 import { getBaseUrl } from "../helpers/import.helper";
 import {
-  isFirstMaskOpening,
-  setFirstMaskOpening,
+  getCurrentStep,
+  getIsFinished,
+  setCurrentStep,
+  setIsFinished,
 } from "../helpers/localstorage.helper";
 import MajorasMask from "../components/MajorasMask";
 import ChallengeText from "../components/ChallengeText";
 import LayerInfos from "../components/LayerInfos";
 import DevComponent from "../components/Test/DevComponent";
-import Modal from "../components/Common/Modal";
-import Icon from "../components/Icons/Icon";
-import ArrowButton from "../components/Common/ArrowButton";
 import { AnimatedMajorasMask } from "../components/AnimatedMajorasMask";
 import steps from "../steps.json";
 import ChallengeInputModal from "../components/ChallengeInputModal";
@@ -29,22 +30,33 @@ enum Status {
 }
 
 export default function EvilView() {
-  const firstOpen = isFirstMaskOpening();
-  if (firstOpen) setFirstMaskOpening(false);
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const storageStep = getCurrentStep();
+  const storageFinished = getIsFinished();
 
   const [status, setStatus] = useState(Status.APPEARING);
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(storageStep);
+  const [isExploding, setIsExploding] = useState(false);
+  const [finished, setFinished] = useState(storageFinished);
 
   const [isChalllengeInputOpen, setIsChallengeInputOpen] = useState(false);
 
   const [currentParagraph, setCurrentParagraph] = useState(0);
 
+  const currentDate = new Date();
+  const targetDate = new Date("2024-05-12T00:00:00");
+  const diff = targetDate.getTime() - currentDate.getTime();
+
+  const [money, setMoney] = useState(0);
+
   const handleOpenChallengeInput = () => {
-    console.log("Finish Challenge");
     setIsChallengeInputOpen(true);
   };
 
   useEffect(() => {
+    setMoney(step * 50);
     setCurrentParagraph(0);
     setStatus(Status.APPEARING);
   }, [step]);
@@ -60,27 +72,39 @@ export default function EvilView() {
     if (status === Status.APPEARING) {
       const timeout = setTimeout(() => {
         setStatus(Status.SPEAKING);
-      }, 2000);
+      }, 2500);
       return () => clearTimeout(timeout);
     }
 
     if (status === Status.SPEAKING) {
+      console.log(steps[step].paragraphs[currentParagraph]);
+      const textSize = steps[step].paragraphs[currentParagraph].reduce(
+        (acc, text) => acc + text.length,
+        0
+      );
+
+      console.log(textSize, steps[step].paragraphs[currentParagraph]);
       const timeout = setTimeout(() => {
         setStatus(Status.PRESENT);
-      }, 5000);
+      }, textSize * 100 + 1000);
       return () => clearTimeout(timeout);
     }
   }, [status]);
 
   const handleNextStep = () => {
     setIsChallengeInputOpen(false);
+    setIsExploding(true);
 
-    if (step === steps.length - 1) {
-      console.log("End of the game");
-      return;
-    }
-
-    setStep(step + 1);
+    setTimeout(() => {
+      setIsExploding(false);
+      if (step < steps.length - 1) {
+        setStep(step + 1);
+        setCurrentStep(step + 1);
+      } else {
+        setFinished(true);
+        setIsFinished(true);
+      }
+    }, 1000);
   };
 
   const animationSpeaking = {
@@ -114,74 +138,77 @@ export default function EvilView() {
         alt="background"
       />
 
-      <Canvas>
-        <directionalLight
-          position={[3.3, 1.0, 4.4]}
-          castShadow
-          intensity={Math.PI * 2}
-        />
-
-        {status === Status.APPEARING && (
-          <AnimatedMajorasMask
-            startPosition={new Vector3(95.6, 0.5, -191)}
-            startRotation={[0, 3 * Math.PI, 0]}
-            endPosition={new Vector3(0, 0.5, 0)}
-            endRotation={[0, 0, 0]}
-            delayBeforeAnimation={100}
-            duration={1000}
+      {!finished && (
+        <Canvas>
+          <directionalLight
+            position={[3.3, 1.0, 4.4]}
+            castShadow
+            intensity={Math.PI * 2}
           />
-        )}
 
-        {status === Status.PRESENT && (
-          <MajorasMask position={new Vector3(0, 0.5, 0)} />
-        )}
+          {status === Status.APPEARING && (
+            <AnimatedMajorasMask
+              startPosition={new Vector3(95.6, 0.5, -191)}
+              startRotation={[0, 3 * Math.PI, 0]}
+              endPosition={new Vector3(0, 0.5, 0)}
+              endRotation={[0, 0, 0]}
+              delayBeforeAnimation={100}
+              duration={1000}
+            />
+          )}
 
-        {status === Status.SPEAKING && (
-          <ComplexAnimatedMajorasMask
-            startPosition={new Vector3(0, 0.5, 0)}
-            startRotation={[0, 0, 0]}
-            duration={1000}
-            animation={animationSpeaking}
-            loop
-          />
-        )}
+          {status === Status.PRESENT && (
+            <MajorasMask position={new Vector3(0, 0.5, 0)} />
+          )}
 
-        {status === Status.DISAPPEARING && (
-          <AnimatedMajorasMask
-            startPosition={new Vector3(0, 0.5, 0)}
-            startRotation={[0, 0, 0]}
-            endPosition={new Vector3(95.6, 0.5, -191)}
-            endRotation={[0, 3 * Math.PI, 0]}
-            duration={1000}
-          />
-        )}
+          {status === Status.SPEAKING && (
+            <ComplexAnimatedMajorasMask
+              startPosition={new Vector3(0, 0.5, 0)}
+              startRotation={[0, 0, 0]}
+              duration={1000}
+              animation={animationSpeaking}
+              loop
+            />
+          )}
 
-        {status === Status.NOT_PRESENT && (
-          <MajorasMask
-            position={new Vector3(95.6, 0.5, -191)}
-            rotation={[0, 3 * Math.PI, 0]}
-          />
-        )}
+          {status === Status.DISAPPEARING && (
+            <AnimatedMajorasMask
+              startPosition={new Vector3(0, 0.5, 0)}
+              startRotation={[0, 0, 0]}
+              endPosition={new Vector3(95.6, 0.5, -191)}
+              endRotation={[0, 3 * Math.PI, 0]}
+              duration={1000}
+            />
+          )}
 
-        <OrbitControls makeDefault />
-      </Canvas>
+          {status === Status.NOT_PRESENT && (
+            <MajorasMask
+              position={new Vector3(95.6, 0.5, -191)}
+              rotation={[0, 3 * Math.PI, 0]}
+            />
+          )}
 
-      {(status === Status.SPEAKING || status === Status.PRESENT) && (
-        <ChallengeText
-          texts={steps[step].paragraphs[currentParagraph]}
-          onNext={() => {
-            if (currentParagraph < steps[step].paragraphs.length - 1) {
-              setStatus(Status.SPEAKING);
-              setCurrentParagraph(currentParagraph + 1);
-            } else {
-              setStatus(Status.DISAPPEARING);
-            }
-          }}
-        />
+          <OrbitControls makeDefault />
+        </Canvas>
       )}
-      {status === Status.NOT_PRESENT && (
+
+      {!finished &&
+        (status === Status.SPEAKING || status === Status.PRESENT) && (
+          <ChallengeText
+            texts={steps[step].paragraphs[currentParagraph]}
+            onNext={() => {
+              if (currentParagraph < steps[step].paragraphs.length - 1) {
+                setStatus(Status.SPEAKING);
+                setCurrentParagraph(currentParagraph + 1);
+              } else {
+                setStatus(Status.DISAPPEARING);
+              }
+            }}
+          />
+        )}
+      {!finished && status === Status.NOT_PRESENT && (
         <LayerInfos
-          money={0}
+          money={money}
           texts={steps[step].recap}
           handleOpenChallengeInput={handleOpenChallengeInput}
         />
@@ -189,11 +216,28 @@ export default function EvilView() {
 
       <DevComponent />
 
-      {isChalllengeInputOpen && (
+      {!finished && isChalllengeInputOpen && (
         <ChallengeInputModal
           code={steps[step].code}
           onSuccess={handleNextStep}
         />
+      )}
+
+      {!finished && isExploding && (
+        <div className="absolute top-1/2 left-1/2 w-96 h-96">
+          <ConfettiExplosion />
+        </div>
+      )}
+
+      {finished && (
+        <>
+          <Confetti width={width} height={height} />
+          <div className=" text-center flex flex-col gap-4 absolute text-white text-md md:text-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <p>Bravo.</p>
+            {diff > 0 && <p>Le RIB sera disponible à partir de 00h00.</p>}
+            {diff < 0 && <p>FR76 0514 2051 8185 1351 4200 000</p>}
+          </div>
+        </>
       )}
     </div>
   );

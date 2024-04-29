@@ -25,7 +25,7 @@ export default function LayerInfos({
         {texts.length > 0 && (
           <div className="absolute bottom-0 left-0 w-full">
             <div className="relative bg-opacity-80 border-4 border-white bg-amber-800 max-w-5xl mx-auto  text-white h-44 ">
-              <div className="h-full flex flex-col justify-center items-center text-xl">
+              <div className="h-full flex flex-col justify-center items-center text-md md:text-xl">
                 {texts.map((text, index) => (
                   <p key={index}>{text}</p>
                 ))}

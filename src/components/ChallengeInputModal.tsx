@@ -30,7 +30,7 @@ export default function ChallengeInputModal({
 
   return (
     <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-      <div className="w-96">
+      <div className="w-full">
         <h1 className="text-center">Veuillez entrer le code :</h1>
         <div className="px-8 my-12 grid grid-rows-2 grid-flow-col">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]

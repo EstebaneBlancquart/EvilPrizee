@@ -1,12 +1,10 @@
 import { useState } from "react";
 import {
-  isFirstMaskOpening,
-  isFirstOpening,
   resetLocalStorage,
-  setFirstMaskOpening,
+  setCurrentStep,
   setFirstOpening,
+  setIsFinished,
 } from "../../helpers/localstorage.helper";
-import Toggle from "./Toggle";
 
 export default function DevComponent({}: {}) {
   const [isOpened, setIsOpened] = useState(false);
@@ -37,22 +35,33 @@ export default function DevComponent({}: {}) {
           >
             Reset LocalStorage
           </button>
-          <Toggle
-            onChange={(checked: boolean) => {
-              setFirstOpening(checked);
+          <button
+            className="bg-white text-black pr-3 pl-4 pb-1 rounded-2xl my-4 transition-all duration-75 hover:bg-blue-200"
+            onClick={() => {
+              setFirstOpening(false);
               window.location.reload();
             }}
-            text="First Opening"
-            initialChecked={isFirstOpening()}
-          />
-          <Toggle
-            onChange={(checked: boolean) => {
-              setFirstMaskOpening(checked);
+          >
+            Reset first opening
+          </button>
+          <button
+            className="bg-white text-black pr-3 pl-4 pb-1 rounded-2xl my-4 transition-all duration-75 hover:bg-blue-200"
+            onClick={() => {
+              setCurrentStep(0);
               window.location.reload();
             }}
-            text="First Mask Opening"
-            initialChecked={isFirstMaskOpening()}
-          />
+          >
+            Reset steps
+          </button>
+          <button
+            className="bg-white text-black pr-3 pl-4 pb-1 rounded-2xl my-4 transition-all duration-75 hover:bg-blue-200"
+            onClick={() => {
+              setIsFinished(false);
+              window.location.reload();
+            }}
+          >
+            Reset finished
+          </button>
         </div>
       </div>
       <button

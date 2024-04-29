@@ -11,7 +11,7 @@ const GenericView = ({
   onCancel?: () => void;
 }) => {
   return (
-    <div className=" h-full w-full bg-black flex flex-col items-center justify-center gap-8">
+    <div className="p-8 text-center h-full w-full bg-black flex flex-col items-center justify-center gap-8">
       {texts.map((text, index) => (
         <p key={index} className="text-white">
           {text}
