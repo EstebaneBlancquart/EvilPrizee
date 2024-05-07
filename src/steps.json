@@ -28,22 +28,54 @@
       ["..."],
       [
         "Pour ta première épreuve,",
-        "Tu devras monter plus haut qu'aucun homme pour affronter le vide et la peur",
-        "en terminant une via-ferrata.",
-        "Les informations seront transmises à tes amis."
+        "Nous allons commencer simple,",
+        "Tu devras gagner une partie de poker",
+        "contre tes amis."
       ]
     ],
-    "recap": ["Première épreuve :", "Via-Ferrata"],
-    "code": "000"
+    "recap": ["Première épreuve :", "Poker"],
+    "code": "425"
   },
   {
     "paragraphs": [
       [
         "Je suis ravie de te revoir.",
-        "Même si, j'avoue,",
-        "J'aurais trouvé marrant que la via-ferrata ai eu raison de toi."
+        "Dépouiller tes amis,",
+        "Cela te fait-il donc tant plaisir ?"
       ],
-      ["Pour la deuxième épreuve,", "Tu devrais faire le défi du barman."],
+      [
+        "Pour la deuxième épreuve,",
+        "Tu devrais chanter toutes les chansons,",
+        "Du karaoké que tu trouveras ici :",
+        "https://kiitoss.github.io/karacoke/"
+      ],
+      ["Bonne chance."]
+    ],
+    "recap": ["Deuxième épreuve :", "Karaoké"],
+    "code": "578"
+  },
+  {
+    "paragraphs": [["La prochaine épreuve commencera Samedi 11 mai.", "..."]],
+    "recap": ["Attendre Samedi 11 mai"],
+    "code": "115"
+  },
+  {
+    "paragraphs": [
+      ["Bien le bonjour Lepab", "Heureux de te revoir."],
+      [
+        "Pour la troisième épreuve,",
+        "Tu devrais boire des shooters de tequila",
+        "avec chacune des personnes ici présentes."
+      ],
+      ["Simple, mais efficace."],
+      ["Bonne chance."]
+    ],
+    "recap": ["Troisième épreuve :", "Shooter entre amis"],
+    "code": "953"
+  },
+  {
+    "paragraphs": [
+      ["Pour la quatrième épreuve,", "Tu devrais faire le défi du barman."],
       [
         "Différentes boissons se présenterons à toi,",
         "tu devras affronter chacun de tes amis",
@@ -59,26 +91,10 @@
       ],
       ["Bonne chance."]
     ],
-    "recap": ["Deuxième épreuve :", "Le défi du barman"],
-    "code": "000"
+    "recap": ["Quatrième épreuve :", "Le défi du barman"],
+    "code": "754"
   },
-  {
-    "paragraphs": [
-      [
-        "L'alcool n'a pas encore eu raison de toi ?",
-        "Parfait, on a pouvoir s'amuser encore un peu."
-      ],
-      [
-        "Pour la troisième épreuve,",
-        "Tu devrais boire des shooters de tequila",
-        "avec chacune des personnes ici présentes."
-      ],
-      ["Simple, mais efficace."],
-      ["Bonne chance."]
-    ],
-    "recap": ["Troisième épreuve :", "Shooter entre amis"],
-    "code": "000"
-  },
+
   {
     "paragraphs": [
       ["Bravo."],
@@ -88,13 +104,13 @@
       ],
       [
         "Il est temps de retrouver son âme d'adolescent tu ne crois pas ?",
-        "Pour la quatrième épreuve,",
+        "Pour la cinquième épreuve,",
         "Tu devras faire la plus belle des rivières."
       ],
       ["Bonne chance."]
     ],
-    "recap": ["Quatrième épreuve :", "Une belle rivière"],
-    "code": "000"
+    "recap": ["Cinquième épreuve :", "Une belle rivière"],
+    "code": "203"
   },
   {
     "paragraphs": [
@@ -109,6 +125,6 @@
       ["Bonne chance pour cette dernière épreuve."]
     ],
     "recap": ["Dernière épreuve :", "Secret"],
-    "code": "000"
+    "code": "628"
   }
 ]

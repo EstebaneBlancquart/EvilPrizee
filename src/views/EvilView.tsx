@@ -210,7 +210,7 @@ export default function EvilView() {
           handleOpenChallengeInput={handleOpenChallengeInput}
         />
       )}
-      <DevComponent />
+      {/* <DevComponent /> */}
       {!finished && isChalllengeInputOpen && (
         <ChallengeInputModal
           isOpen={isChalllengeInputOpen}
